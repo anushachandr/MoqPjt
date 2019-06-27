@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using BoDi;
+using NUnit.Framework.Internal;
+using TechTalk.SpecFlow;
+
+namespace SpecflowNunitTests
+{
+    [Binding]
+    public  class CommonBinding
+    {
+        [BeforeTestRun]
+        public void BeforeTestRun(IObjectContainer oc)
+        {
+            oc.RegisterInstanceAs<IWebDriverTest>(new WebDriverTest());
+        }
+
+        [Given(@"I have entered (.*) into the calculator")]
+        public void GivenIHaveEnteredIntoTheCalculator(int p0)
+        {
+            
+        }
+
+        [When(@"I press add")]
+        public void WhenIPressAdd()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"the result should be (.*) on the screen")]
+        public void ThenTheResultShouldBeOnTheScreen(int p0)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+    }
+}
