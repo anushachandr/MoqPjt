@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoqPjt", "MoqPjt\MoqPjt.csproj", "{EDE01696-3A99-44A9-B676-58B2B152723C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecflowNunitTests", "SpecflowNunitTests\SpecflowNunitTests.csproj", "{FD33474E-111C-4343-BC14-3905A91FDA7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecflowNunitTests", "SpecflowNunitTests\SpecflowNunitTests.csproj", "{FD33474E-111C-4343-BC14-3905A91FDA7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

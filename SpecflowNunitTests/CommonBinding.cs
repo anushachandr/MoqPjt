@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using BoDi;
-using NUnit.Framework.Internal;
+using OpenQA.Selenium.Chrome;
 using TechTalk.SpecFlow;
 
 namespace SpecflowNunitTests
@@ -11,29 +8,29 @@ namespace SpecflowNunitTests
     [Binding]
     public  class CommonBinding
     {
+        private IObjectContainer _objCon;
+
+        public CommonBinding(IObjectContainer objCon)
+        {
+            _objCon = objCon;
+        }
+      
         [BeforeTestRun]
-        public void BeforeTestRun(IObjectContainer oc)
+        public static void BeforeTestRun(IObjectContainer oc)
         {
-            oc.RegisterInstanceAs<IWebDriverTest>(new WebDriverTest());
+            oc.RegisterTypeAs<WebDriverTest, IWebDriverTest>();
+            var d = Directory.GetCurrentDirectory();
+            oc.RegisterInstanceAs<IWebDriverTest>(new WebDriverTest(new ChromeDriver(Directory.GetCurrentDirectory())));
         }
 
-        [Given(@"I have entered (.*) into the calculator")]
-        public void GivenIHaveEnteredIntoTheCalculator(int p0)
+        [AfterScenario]
+        public void AfterScenario()
         {
-            
-        }
+            var d = _objCon.Resolve<IWebDriverTest>();
+            d.WebDriver.Dispose();
 
-        [When(@"I press add")]
-        public void WhenIPressAdd()
-        {
-            ScenarioContext.Current.Pending();
         }
-
-        [Then(@"the result should be (.*) on the screen")]
-        public void ThenTheResultShouldBeOnTheScreen(int p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
+      
 
     }
 }

@@ -47,7 +47,6 @@ namespace Tests
             var count = 1;
             mock.Setup(foo => foo.GetCount()).Returns(() => count);
 
-
         }
 
         [Test]
@@ -57,6 +56,7 @@ namespace Tests
             var mock = new Mock<IStrings>();
             string string1 = "Hella";
             string string2 = "World";
+            
             mock.Setup(x => x.AMethodCall(It.IsAny<string>(), It.IsAny<string>()))
                 .Callback<string, string>((s1, s2) =>
                 {
@@ -124,13 +124,11 @@ namespace Tests
     }
 }
 
-    public interface IStrings
-    {
-       void AMethodCall(string a,string b);
-     
-    }
+public interface IStrings
+{
+    void AMethodCall(string a, string b);
 
-
+}
 
 public class ServiceUnderTest
 {
