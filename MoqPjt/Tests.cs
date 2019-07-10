@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Moq;
+
 using MoqPjt;
 using NUnit.Framework;
 using NUnit.Framework.Internal.Execution;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
+using Moq;
+using NUnit.Framework.Internal;
 
 namespace Tests
 {
@@ -15,22 +19,19 @@ namespace Tests
         [SetUp]
         public void Setup()
         {
-
             var mock = new Mock<IFoo>();
             mock.Setup(foo => foo.DoSomething("ping")).Returns(true);
-
+            
 
             // out arguments
             var outString = "ack";
             // TryParse will return true, and the out argument will return "ack", lazy evaluated
             mock.Setup(foo => foo.TryParse("ping", out outString)).Returns(true);
 
-
             // ref arguments
             var instance = new Bar();
             // Only matches if the ref argument to the invocation is the same instance
             mock.Setup(foo => foo.Submit(ref instance)).Returns(true);
-
 
             // access invocation arguments when returning a value
             mock.Setup(x => x.DoSomethingStringy(It.IsAny<string>()))
@@ -54,7 +55,7 @@ namespace Tests
         {
             // Arrange
             var mock = new Mock<IStrings>();
-            string string1 = "Hella";
+            string string1 = "Hell1";
             string string2 = "World";
             
             mock.Setup(x => x.AMethodCall(It.IsAny<string>(), It.IsAny<string>()))
@@ -67,18 +68,17 @@ namespace Tests
             var sut = new ServiceUnderTest(mock.Object);
             // Act
             sut.DoIt();
+        
 
-            // Assert
+          //  Assert.Throws()
             Assert.That(string1, Is.EqualTo("Hello"));
             Assert.That(string2, Is.EqualTo("World"));
-
         }
 
         [Test]
         public void Test_Index()
         {
             Company company = new Company();
-            var d = company["emp1"];
             company["emp1"] = "employee100";
         }
 
@@ -88,17 +88,37 @@ namespace Tests
 
             var ts = TimeSpan.Parse("00:01:00");
             Thread.Sleep(ts);
+            
 
             string s = "00:01:00";
             var f = s.Split(":");
             var dt = new TimeSpan(00, 01, 00);
             Thread.Sleep(dt);
         }
+
+        [Test]
+        public void Test_NullConditional()
+        {
+            var emp=new Employee();
+
+            var f = emp.EmployeeName?.IndexOf('a');
+        }
+
+        [Test]
+        public void Test_dynamic()
+        {
+            dynamic fun() => 4 + 4;
+            int f = fun();
+        }
     }
 
     public class Employee
     {
-        public string EmployeeName;
+        public string EmployeeName
+        {
+            get;
+            set;
+        }
         public int EmployeeNumber;
     }
 
@@ -127,7 +147,6 @@ namespace Tests
 public interface IStrings
 {
     void AMethodCall(string a, string b);
-
 }
 
 public class ServiceUnderTest
